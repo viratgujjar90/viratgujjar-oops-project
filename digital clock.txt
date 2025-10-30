@@ -1,0 +1,52 @@
+#include <iostream>
+#include <iomanip> // for setw() and setfill()
+#include <chrono> // for chrono::seconds
+#include <thread> // for this_thread::sleep_for
+
+using namespace std;
+
+int main() {
+int hour, minute, second;
+
+cout << "Enter current time:" << endl;
+cout << "Hours (0-23): ";
+cin >> hour;
+cout << "Minutes (0-59): ";
+cin >> minute;
+cout << "Seconds (0-59): ";
+cin >> second;
+
+if (hour > 23 || minute > 59 || second > 59) {
+cout << "Invalid time format!" << endl;
+return 0;
+}
+
+while (true) {
+// Clear screen using ANSI escape code (works in most online compilers)
+cout << "\033[2J\033[1;1H";
+
+// Display time in hh:mm:ss
+cout << setfill('0') << setw(2) << hour << ":"
+<< setfill('0') << setw(2) << minute << ":"
+<< setfill('0') << setw(2) << second << endl;
+
+// Wait for 1 second
+this_thread::sleep_for(chrono::seconds(1));
+
+// Update time
+second++;
+if (second == 60) {
+second = 0;
+minute++;
+}
+if (minute == 60) {
+minute = 0;
+hour++;
+}
+if (hour == 24) {
+hour = 0;
+}
+}
+
+return 0;
+}
